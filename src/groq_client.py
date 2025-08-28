@@ -56,7 +56,9 @@ Examples:
 Now generate resources for: {topic}
 """
 
+
 # ---------------- LLM Call ---------------- #
+
 
 
 def get_ai_response(prompt, stream=False):
