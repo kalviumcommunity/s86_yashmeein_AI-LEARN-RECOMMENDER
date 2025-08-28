@@ -90,3 +90,8 @@ def get_ai_response(prompt, stream=False):
         tokens_used = response.usage.total_tokens
         print(f"Tokens used: {tokens_used}")
         return response.choices[0].message.content
+    
+    
+
+    
+    
