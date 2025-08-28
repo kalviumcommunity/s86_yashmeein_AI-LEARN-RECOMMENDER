@@ -55,3 +55,38 @@ Examples:
 
 Now generate resources for: {topic}
 """
+
+# ---------------- LLM Call ---------------- #
+
+
+def get_ai_response(prompt, stream=False):
+    if stream:
+        completion = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_completion_tokens=1024,
+            top_p=1,
+            stream=True,
+            stop=None
+        )
+        response_text = ""
+        for chunk in completion:
+            delta = getattr(chunk.choices[0], "delta", None)
+            if delta and getattr(delta, "content", None):
+                content = delta.content
+                print(content, end="", flush=True)
+                response_text += content
+        print()
+        return response_text
+    else:
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_completion_tokens=1024,
+            top_p=1
+        )
+        tokens_used = response.usage.total_tokens
+        print(f"Tokens used: {tokens_used}")
+        return response.choices[0].message.content
